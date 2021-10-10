@@ -49,7 +49,7 @@ async def chart(ctx, arg=7):
 	await ctx.send(file=chart)
 	await ctx.send("> Source: CoinGecko - <https://www.coingecko.com/en/coins/tezos>")
 
-@bot.command(aliases=['versus'], help="Get the prize of XTZ versus another currency (eg: ETH).")
+@bot.command(aliases=['versus'], help="Get the prize of XTZ versus another currency (eg: $vs ETH).")
 async def vs(ctx, arg='usd'):
 	price = requests.get(f"https://api.coingecko.com/api/v3/simple/price?ids=tezos&vs_currencies={arg.lower()}").json()["tezos"][arg]
 	await ctx.send(embed=embed("Tezos Exchange Rate", f"1 XTZ is equivalent to {round(price, 6)} {arg.upper()}."))
