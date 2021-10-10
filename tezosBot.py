@@ -101,13 +101,13 @@ def generate_price_chart(days=7):
 
 	dateData = []
 	today = datetime.date.today()
-	for i in range(7): dateData.append(today - datetime.timedelta(days=i))
+	for i in range(days): dateData.append(today - datetime.timedelta(days=i))
 
 	plt.clf()
 	plt.title(f"Tezos Price Action ({days} Days)")
 	plt.plot(timestampData, priceData)
 	plt.ylabel("Price (USD)", loc = 'center')
-	plt.xlabel(str(today - datetime.timedelta(days=7))[5:10] + ' to ' + str(today)[5:10] + ' of ' + str(today)[:4], loc = 'center')
+	plt.xlabel(str(today - datetime.timedelta(days=days))[5:10] + ' to ' + str(today)[5:10] + ' of ' + str(today)[:4], loc = 'center')
 	plt.xticks([])
 	plt.savefig('TezosPlot.png')
 	return discord.File("TezosPlot.png", filename="TezosPlot.png")
