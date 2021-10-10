@@ -42,7 +42,7 @@ async def ticker(ctx):
 	await ctx.send(file=chart)
 	await ctx.send("> Source: CoinGecko - <https://www.coingecko.com/en/coins/tezos>")
 
-@bot.command(aliases=['ch'], help="Get the price action chart of XTZ.")
+@bot.command(aliases=['ch'], help="Get the price action chart of XTZ, default 7 days (eg: !chart 240).")
 async def chart(ctx, arg=7):
 	chart = generate_price_chart(arg)
 	await ctx.send("**TEZOS PRICE ACTION CHART**")
@@ -59,20 +59,20 @@ async def convert(ctx, amount=1, curr='USD'):
 	price = requests.get(f"https://api.coingecko.com/api/v3/simple/price?ids=tezos&vs_currencies={curr.lower()}").json()["tezos"][curr]
 	await ctx.send(embed=embed("Approx. Tezos Conversion", f"{amount} {curr.upper()} would convert to approximately {round(amount/price, 6)} XTZ."))
 
-@bot.command(aliases=['acc', 'accountInfo'], help="Get blockchain metadata associated with an address.")
+@bot.command(aliases=['acc', 'accountInfo'], help="Get blockchain metadata associated with an address. (Eg: !account <address>)")
 async def account(ctx, address='None'):
 	if address == 'None': await ctx.send(embed=embed("Error", "You must specify an address to query.", discord.Colour.red()))
 	try:
 		metadata = requests.get(f"https://api.tzkt.io/v1/accounts/{address}/metadata").json()
-		text = f"<:xtz:896622154517446786> **Wallet Address:** {address} \n"
+		text = f"<:xtz:896622154517446786> **Wallet Address:** {address} \n\n"
 		for key,value in metadata.items():
-				text += f"{key.capitalize()} - {value} \n\n"
+				text += f"{key.capitalize()} - {value} \n"
 		await ctx.send(embed=embed("Tezos Account Info", text))
 	except Exception as e:
 		print(e)
 		await ctx.send(embed=embed("Error", "That is not a valid address.", discord.Colour.red()))
 
-@bot.command(aliases=['bal'], help="Get the XTZ balance of an address.")
+@bot.command(aliases=['bal'], help="Get the XTZ balance of an address (eg: !balance <address>).")
 async def balance(ctx, address='None'):
 	if address == 'None': await ctx.send(embed=embed("Error", "You must specify an address to query.", discord.Colour.red()))
 	try:
